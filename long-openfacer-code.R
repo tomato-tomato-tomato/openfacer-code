@@ -53,3 +53,30 @@ happiness_counts <- select_happiness %>%
   tibble(name = names(select_happiness), count = .)
 # print the resulting data frame
 happiness_counts
+
+
+# Function to save each dataframe in a list as a CSV file
+save_dataframes_as_csv <- function(dataframes_list, prefix, dir_path) {
+  # Loop through each dataframe in the list and save it as a CSV file
+  for (i in seq_along(dataframes_list)) {
+    # Get the dataframe name from the list and modify it
+    df_name <- gsub("_synced", "", names(dataframes_list)[i])
+    file_name <- paste0(dir_path, prefix, df_name, ".csv")
+    
+    # Save the dataframe as a CSV file
+    write.csv(dataframes_list[[i]], file_name, row.names = FALSE)
+  }
+}
+
+# Set the directory path where you want to save the CSV files
+dir_path <- "/data/netapp02/work/Manvi_Sethi/"
+
+# Save dataframes in select_anger list as CSV files
+save_dataframes_as_csv(select_anger, "anger_", paste0(dir_path, "select_anger_csvs/"))
+
+# Save dataframes in select_happiness list as CSV files
+save_dataframes_as_csv(select_happiness, "happiness_", paste0(dir_path, "select_happiness_csvs/"))
+
+# Save dataframes in select_sadness list as CSV files
+save_dataframes_as_csv(select_sadness, "sadness_", paste0(dir_path, "select_sadness_csvs/"))
+
